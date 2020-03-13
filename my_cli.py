@@ -20,6 +20,13 @@ class MyCli(Cmd):
         print("\n".join(['Generate a class diagram in png format from given file',
         'classdiagram [output png file name suffix] [input source code file name.py])']))
 
+    def do_readsourcefile(self, file_name):
+        """This function is incomplete. Harry is still working on this"""
+        self.file_name = file_name
+        f = open(self.file_name, "r")
+        print(f.read())
+        f.close()
+
     def do_quit(self, line):
         """Exit this command line interpreter"""
         print("Quitting......")
