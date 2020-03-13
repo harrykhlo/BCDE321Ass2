@@ -13,13 +13,12 @@ class MyCli(Cmd):
         """Generate a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
         self.file_names = file_names
         pyreverse_command = 'pyreverse -ASmn -o png -p ' + file_names
-        #subprocess.call(shlex.split(pyreverse_command))
         subprocess.call(pyreverse_command)
         print(file_names + ' are done')
 
     def help_pyrclassdiagram(self):
         print("\n".join(['Generate a class diagram in png format from given file',
-        'classdiagram [output png file name suffix] [input source code file name.py] )']))
+        'classdiagram [output png file name suffix] [input source code file name.py])']))
 
     def do_quit(self, line):
         """Exit this command line interpreter"""
