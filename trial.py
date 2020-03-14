@@ -21,14 +21,29 @@ with open("test.py", "r") as source:
     print(tree.__dir__())
     print("----------------------------------------------")
 # line below can get the
+    print("class:")
     print(tree.body[0].name) #Car class
+    print("number of classes:")
+    print(len(tree.body)) # show 4 classes
     print("----------------------------------------------")
+    print("function:")
     print(tree.body[0].body[0].name)  # __init__ function
+    print("number of functions:")
+    print(len(tree.body[0].body)) # show 2 functions
     print("----------------------------------------------")
+    print("Arguments in a function:")
     print(tree.body[0].body[0].args.args[1].arg)  # num argument
+    print("Number of arguments including self:")
+    print(len(tree.body[0].body[0].args.args))  # show 2 arguments including self
     print("----------------------------------------------")
+    print("Not sure what this is")
     print(tree.body[0].body[0].args.vararg)  # None from vararg=None
-    
+    print("----------------------------------------------")
+    print("Attributes in a class:")
+    print(tree.body[0].body[0].body[0].targets[0].attr)  # door attribute
+    print(tree.body[0].body[0].body[1].targets[0].attr)  # wheel attribute
+    print("number of attributes in a class:")
+    print(len(tree.body[0].body[0].body)) # show 2 attributes
 
     # print(tree.body[0].ClassDef[0])
     # print(inspect.getmembers(tree))
