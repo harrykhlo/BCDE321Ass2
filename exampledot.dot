@@ -1,0 +1,35 @@
+digraph G {
+        fontname = "Time-Roman"
+        fontsize = 8
+
+        node [
+                fontname = "Time-Roman"
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontname = "Time-Roman"
+                fontsize = 8
+        ]
+
+        Animal [
+                label = "{Animal|+ name : string\l+ age : int\l|+ die() : void\l}"
+        ]
+
+        Dog [
+                label = "{Dog||+ bark() : void\l}"
+        ]
+
+        Cat [
+                label = "{Cat||+ meow() : void\l}"
+        ]
+
+        edge [
+                arrowhead = "empty"
+        ]
+
+        Dog -> Animal
+        Cat -> Animal
+
+}
