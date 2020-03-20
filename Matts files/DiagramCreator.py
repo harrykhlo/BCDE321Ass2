@@ -32,10 +32,3 @@ class MyCreator:
 
 
 # MyCreator('FullClassDiagram.png', 'TestClass.py').run()
-
-# classes.filename.png
-# graphviz
-# pickle
-# validation
-# 11) Amount of checking for pre- and post- conditions of methods
-# 4) Change commands and options

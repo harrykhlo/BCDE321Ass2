@@ -1,11 +1,11 @@
 from cmd import Cmd
 from Diagram import DiagramCreator
-import pickle
+from Diagram import PickleMaker
 
 
 class MyPrompt(Cmd):
     prompt = '> '
-    intro = "Type ? to list commands"  # actually do this
+    intro = "Type ? to list commands"
 
     def do_exit(self, inp):
         # exit the application.
@@ -22,23 +22,27 @@ class MyPrompt(Cmd):
     def help_diagram(self):
         print('Create a class diagram. Enter file location of py/dot file, then enter name/type of image.')
 
-    def do_pickle(self, inp):  # make a py file for pickle
-        DiagramCreator.MyCreator('PickleDot.dot', inp).create_diagram()  # change so file can be anything instead of just dot
-        pickle_file = open(input('Enter filename: '), 'wb')
-        pickle.dump('classes.PickleDot.dot', pickle_file)  # remove classes
-        pickle_file.close()
+    def do_pickle(self, inp):
+        PickleMaker.MyPickle(inp, input('name of pickle file: ')).make_pickle()
 
     def help_pickle(self):
-        print('a')
+        print('pickle [filename], enter file to pickle then the name of the pickle file')
 
-    def do_unpickle(self, inp):  # I will make pickle and unpickle into functions in a new file
-        pickle_file = open(inp, 'rb')
+    def do_unpickle(self, inp):  # i don't know if this is correct or not
+        PickleMaker.MyPickle('a', inp).make_pickle()
+        """pickle_file = open(inp, 'rb')  # https://www.datacamp.com/community/tutorials/pickle-python-tutorial
         load_file = pickle.load(pickle_file)
         print(load_file)
-        pickle_file.close()
+        pickle_file.close()"""
 
     def help_unpickle(self):
-        print('b')
+        print('unpickle [picklefilename], enter the name of a file that has been pickled')
+
+    def do_db(self):
+        pass
+
+    def help_db(self):
+        print('a')
 
     def default(self, inp):
         print(inp + ' is an incorrect command. Type ? to list commands.')
