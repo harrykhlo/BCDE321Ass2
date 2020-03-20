@@ -27,20 +27,24 @@ class MyCli(Cmd):
                 subprocess.call(pyreverse_command)
                 print(file_names + ' are done')
             else:
-                print("Your input arguments were wrong. It should be "
-                      "[png_file_name_suffix py_file_name.py]. Please try again!")
+                print("Your given python file does not exist in the current directory "
+                      "or your input arguments were wrong. The input arguments "
+                      "should be [png_file_name_suffix py_file_name.py]. "
+                      "Please try again!")
         except Exception as err:
             print("Please try again! The exception is: ", err)
 
     # Harry's work
     def help_pyr_class_diagram(self):
-        print("\n".join(['Generate a class diagram in png format from given file',
-                         'class diagram [output png file name suffix] [input source code file name.py])']))
+        print("\n".join(['Generate a class diagram in png format from a given python file',
+                         'Syntax: pyr_class_diagram [output png file name suffix] '
+                         '[input source code file name.py])']))
 
+    # Harry's work
     def do_readsourcefile(self, file_name):
         """This function is incomplete. Harry is still working on this"""
         self.file_to_data.readfile(file_name)
-        print("The ast nodes below has been read from the given file:")
+        print("The ast nodes below has been read from the given python file:")
         self.file_to_data.show_ast_nodes()
 
     def do_displaysourcefilenodes(self, file_name):
