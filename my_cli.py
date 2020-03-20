@@ -1,25 +1,38 @@
 from cmd import Cmd
 import subprocess
 from file_to_data import FileToData
+import os.path
+from os import path
 import webbrowser
 
 
 class MyCli(Cmd):
     """Command line interpreter for generating UML class diagram"""
 
+    # Harry's work
     def __init__(self, my_name=">"):
         Cmd.__init__(self, my_name)
         self.my_name = my_name
         self.prompt = ">>" + my_name + ">> "
         self.file_to_data = FileToData()
 
+    # Harry's work
     def do_pyr_class_diagram(self, file_names):
         """Generate a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
         self.file_names = file_names
-        pyreverse_command = 'pyreverse -ASmn -o png -p ' + file_names
-        subprocess.call(pyreverse_command)
-        print(file_names + ' are done')
+        python_file_name = file_names[(file_names.find(" ")+1):]
+        try:
+            if path.exists(python_file_name):
+                pyreverse_command = 'pyreverse -ASmn -o png -p ' + file_names
+                subprocess.call(pyreverse_command)
+                print(file_names + ' are done')
+            else:
+                print("Your input arguments were wrong. It should be "
+                      "[png_file_name_suffix py_file_name.py]. Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
 
+    # Harry's work
     def help_pyr_class_diagram(self):
         print("\n".join(['Generate a class diagram in png format from given file',
                          'class diagram [output png file name suffix] [input source code file name.py])']))

@@ -21,7 +21,6 @@ def main():
     parser.add_argument("-l", help="optional: give a letter displaced at the beginning of each " +
                                    "command line. If user enter a string, only first character " +
                                    "will be shown.", dest="letter", type=str, default=">")
-
     parser.set_defaults(func=run)
     args = parser.parse_args()
     args.func(args)
