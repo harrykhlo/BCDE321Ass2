@@ -1,5 +1,6 @@
 from my_cli import MyCli
 import argparse
+import webbrowser
 import sys
 
 def run(args):

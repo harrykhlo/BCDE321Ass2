@@ -11,6 +11,12 @@ class v(ast.NodeVisitor):
         ast.NodeVisitor.generic_visit(self, node)
         # ast.NodeVisitor.visit(self, node)
 
+    def readfile(self, filename):
+        with open("filename", "r") as source:
+            self.tree = ast.parse(source.read())
+
+
+
 
 with open("test.py", "r") as source:
     # print(source.read())
