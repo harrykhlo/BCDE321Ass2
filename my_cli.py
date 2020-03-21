@@ -9,6 +9,7 @@ import matplotlib.image as mpimg
 import numpy as np
 from DiagramCreator import MyCreator
 from PickleMaker import MyPickle
+from SQLDatabase import MyDatabase
 import shlex
 import sys
 
@@ -63,12 +64,42 @@ class MyCli(Cmd):
         print('unpickle [picklefilename], enter the name of a file that has been pickled')
 
     # Matt's work
-    def do_db(self):
-        pass
+    def do_createtable(self, inp):
+        MyDatabase().create_table(inp)
 
     # Matt's work
-    def help_db(self):
-        print('a')
+    def help_createtable(self):
+        print('createtable [TABLE_NAME], creates a table with: file_number INTEGER PRIMARY KEY, file_name VARCHAR(30),'
+              'file_content VARCHAR(999) ')
+
+    # Matt's work
+    def do_addtotable(self, inp):
+        f_number = input('File number: ')
+        try:
+            val = int(f_number)
+            MyDatabase().add_data(inp, val, input('File name: '), input('File content: '))
+        except ValueError:
+            print('Please input a integer!')
+
+    # Matt's work
+    def help_addtotable(self):
+        print('addtotable [TABLE_NAME], adds data to specified table')
+
+    # Matt's work
+    def do_showtable(self, inp):
+        MyDatabase().show_data(inp)
+
+    # Matt's work
+    def help_showtable(self):
+        print('showtable [TABLE_NAME], shows data held within specified table')
+
+    # Matt's work
+    def do_deletetable(self, inp):
+        MyDatabase().delete_table(inp)
+
+    # Matt's work
+    def help_deletetable(self):
+        print('deletetable [TABLE_NAME], deletes specified table')
 
     # Matt's work
     def default(self, inp):

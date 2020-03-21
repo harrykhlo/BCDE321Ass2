@@ -1,9 +1,4 @@
-import sys
-import pydot
 import subprocess
-from pylint import run_pyreverse
-from graphviz import *
-import os
 
 
 class MyCreator:
