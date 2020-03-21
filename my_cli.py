@@ -9,8 +9,9 @@ import matplotlib.image as mpimg
 import numpy as np
 from DiagramCreator import MyCreator
 from PickleMaker import MyPickle
-#from Diagram import DiagramCreator
-#from Diagram import PickleMaker
+import shlex
+import sys
+
 
 class MyCli(Cmd):
     """Command line interpreter for generating UML class diagram"""
@@ -72,6 +73,69 @@ class MyCli(Cmd):
     # Matt's work
     def default(self, inp):
         print(inp + ' is an incorrect command. Type ? to list commands.')
+
+    # John's work
+    def __canExit(self):
+        return self.canExit
+
+    # John's work
+    def __setCanExit(self, value):
+        self.canExit = value
+
+    # John's work
+    def preloop(self):
+        """Initialization"""
+        Cmd.preloop(self)  # sets up command completion
+        self._hist = []  # No history yet
+        self._locals = {}  # Initialize execution namespace for user
+        self._globals = {}
+
+    # John's work
+    def postloop(self):
+        """Finish up everything"""
+        Cmd.postloop(self)  # Clean up command completion
+        print("The application will now exit!")
+
+    # John's work
+    def emptyline(self):
+        """Do nothing on empty input line"""
+        pass
+
+    # John's work
+    # The do's
+    def do_exit(self, args):
+        """Exits from the console"""
+        if self.__canExit(): return True
+        print("Please, wait until all operations end")
+        return False
+
+    # John's work
+    # Command definitions to support Cmd object functionality ##
+    def do_EOF(self, args):
+        """Exit on system end of file character"""
+        return self.do_exit(args)
+
+    # John's work
+    def do_shell(self, args):
+        """Pass command to a system shell when line begins with '!'"""
+        os.system(args)
+
+    # John's work
+    def do_help(self, args):
+        """Get help on commands"""
+        Cmd.do_help(self, args)
+
+    # John's work
+    def do_create(self, file_name):
+        """Create UML class diagram"""
+        command = 'pyreverse -o png -ASmy -k {0} -p class'.format(file_name)
+        subprocess.call(shlex.split(command))
+
+    # John's work
+    def run_pyreverse(self):
+        """run pyreverse"""
+        from pylint.pyreverse.main import Run
+        Run(sys.argv[1:])
 
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
