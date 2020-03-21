@@ -7,7 +7,9 @@ import webbrowser
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
-
+from DiagramCreator import MyCreator
+#from Diagram import DiagramCreator
+#from Diagram import PickleMaker
 
 class MyCli(Cmd):
     """Command line interpreter for generating UML class diagram"""
@@ -29,8 +31,14 @@ class MyCli(Cmd):
     def help_exit(self):
         print('Exit the application.')
 
+    # Matt's work
+    def do_diagram(self, inp):
+        image_name = input('Image name/type:')
+        MyCreator(image_name, inp).create_diagram()
 
-
+    # Matt's work
+    def help_diagram(self):
+        print('Create a class diagram. Enter file location of py/dot file, then enter name/type of image.')
 
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
