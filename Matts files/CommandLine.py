@@ -1,6 +1,7 @@
 from cmd import Cmd
-from Diagram import DiagramCreator
-from Diagram import PickleMaker
+import DiagramCreator # diagram is the folder for my pc remove this when implementing
+import PickleMaker
+import SQLDatabase
 
 
 class MyPrompt(Cmd):
@@ -8,7 +9,6 @@ class MyPrompt(Cmd):
     intro = "Type ? to list commands"
 
     def do_exit(self, inp):
-        # exit the application.
         print('Exiting Program...')
         return True
 
@@ -30,19 +30,38 @@ class MyPrompt(Cmd):
 
     def do_unpickle(self, inp):  # i don't know if this is correct or not
         PickleMaker.MyPickle('a', inp).make_pickle()
-        """pickle_file = open(inp, 'rb')  # https://www.datacamp.com/community/tutorials/pickle-python-tutorial
-        load_file = pickle.load(pickle_file)
-        print(load_file)
-        pickle_file.close()"""
 
     def help_unpickle(self):
         print('unpickle [picklefilename], enter the name of a file that has been pickled')
 
-    def do_db(self):
-        pass
+    def do_createtable(self, inp):
+        SQLDatabase.MyDatabase().create_table(inp)
 
-    def help_db(self):
+    def help_createtable(self):
         print('a')
+
+    def do_addtotable(self, inp):
+        f_number = input('File number: ')
+        try:
+            val = int(f_number)
+            SQLDatabase.MyDatabase().add_data(inp, val, input('File name: '), input('File content: '))
+        except ValueError:
+            print('Please input a integer!')
+
+    def help_addtotable(self):
+        print('b')
+
+    def do_showtable(self, inp):
+        SQLDatabase.MyDatabase().show_data(inp)
+
+    def help_showtable(self):
+        print('a')
+
+    def do_deletetable(self, inp):
+        SQLDatabase.MyDatabase().delete_table(inp)
+
+    def help_deletetable(self):
+        print('b')
 
     def default(self, inp):
         print(inp + ' is an incorrect command. Type ? to list commands.')

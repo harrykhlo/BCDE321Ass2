@@ -5,52 +5,81 @@ class MyDatabase:
     def __init__(self):
         self.connection = sqlite3.connect("diagramdb.db")
         self.cursor = self.connection.cursor()
-        print('Opened database!')
+        # print('Opened database!')
 
-    def create_table(self):
-        sql_command = """
-        CREATE TABLE diagram (
-        file_number INTEGER PRIMARY KEY,
-        file_name VARCHAR(30),
-        file_content VARCHAR(999));"""
-        self.cursor.execute(sql_command)
-
-    def add_data(self, file_number, file_name, file_content):
-        diagram_data = []
-        diagram_data.append((file_number, file_name, file_content))
-        for d in diagram_data:
-            format_str = """INSERT INTO diagram (file_number, file_name, file_content)
-            VALUES ("{number}", "{name}", "{content}");"""
-            sql_command = format_str.format(number=d[0], name=d[1], content=d[2])
+    def create_table(self, table_name):
+        if self.check_table(table_name):
+            print(table_name + " already exists")
+        else:
+            format_str = """
+            CREATE TABLE {t_name} (
+            file_number INTEGER PRIMARY KEY,
+            file_name VARCHAR(30),
+            file_content VARCHAR(999));"""
+            sql_command = format_str.format(t_name=table_name)
             self.cursor.execute(sql_command)
-        self.connection.commit()
+            print('Table "' + table_name + '" created!')
+            self.connection.close()
 
-    def show_data(self):
-        self.cursor.execute("SELECT * FROM diagram")
-        print("fetchall:")
-        result = self.cursor.fetchall()
-        for r in result:
-            print(r)
-        self.cursor.execute("SELECT * FROM diagram")
-        print("\nfetch one:")
-        res = self.cursor.fetchone()
-        print(res)
+    def add_data(self, table_name, file_number, file_name, file_content):
+        if self.check_table(table_name):
+            diagram_data = []
+            diagram_data.append((file_number, file_name, file_content))
+            for d in diagram_data:
+                format_str = """INSERT INTO {t_name} (file_number, file_name, file_content)
+                VALUES ("{number}", "{name}", "{content}");"""
+                sql_command = format_str.format(t_name=table_name, number=d[0], name=d[1], content=d[2])
+                self.cursor.execute(sql_command)
+            self.connection.commit()
+            print('Data added to "' + table_name + '"')
+            self.connection.close()
+        else:
+            print(table_name + " doesn't exist")
 
-    def delete_table(self):
-        self.cursor.execute("""DROP TABLE diagram;""")
+    def show_data(self, table_name):
+        if self.check_table(table_name):
+            format_str = """SELECT * FROM {t_name}"""
+            sql_command = format_str.format(t_name=table_name)
+            self.cursor.execute(sql_command)
+            print("fetchall:")
+            result = self.cursor.fetchall()
+            for r in result:
+                print(r)
+            self.cursor.execute(sql_command)
+            print("\nfetch one:")
+            res = self.cursor.fetchone()
+            print(res)
+            self.connection.close()
+        else:
+            print(table_name + " doesn't exist")
 
-    def close(self):
-        self.connection.close()
+    def delete_table(self, table_name):
+        if self.check_table(table_name):
+            format_str = """DROP TABLE {t_name};"""
+            sql_command = format_str.format(t_name=table_name)
+            self.cursor.execute(sql_command)
+            print('Table "' + table_name + '" deleted!')
+            self.connection.close()
+        else:
+            print(table_name + " doesn't exist")
+
+    def check_table(self, table_name):
+        self.cursor.execute(('''
+        SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{t_name}'
+        ''').format(t_name=table_name))
+        if self.cursor.fetchone()[0] == 1:
+            return True
+        return False
 
 
+"""
 sdb = MyDatabase()
-sdb.create_table()
-sdb.add_data(1, 'test', 'test content')
-sdb.add_data(2, 'test2', 'test content2')
-sdb.add_data(3, 'test3', 'test content3')
-sdb.show_data()
-sdb.delete_table()
-sdb.close()
-
+sdb.create_table('testt')
+sdb.add_data('testt', 1, 'test', 'test content')
+sdb.add_data('testt', 2, 'test2', 'test content2')
+sdb.add_data('testt', 3, 'test3', 'test content3')
+sdb.show_data('testt')
+sdb.delete_table('testt')
+"""
 
 
