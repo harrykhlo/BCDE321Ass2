@@ -139,7 +139,7 @@ class MyCli(Cmd):
 
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
-        """Generate a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
+        """Generate and display a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
         self.file_names = file_names
         python_file_name = file_names[(file_names.find(" ") + 1):]
         png_file_name = 'classes_' + file_names[0:(file_names.find(" "))] + '.png'
@@ -148,13 +148,17 @@ class MyCli(Cmd):
                 pyreverse_command = 'pyreverse -ASmn -o png -p ' + file_names
                 subprocess.call(pyreverse_command)
                 print(file_names + ' are done')
-                # show png image
-                img = mpimg.imread(png_file_name)
-                fig = plt.imshow(img)
-                fig.axes.get_xaxis().set_visible(False)
-                fig.axes.get_yaxis().set_visible(False)
-                plt.show()
 
+                if path.exists(png_file_name):
+                    # show png image
+                    img = mpimg.imread(png_file_name)
+                    fig = plt.imshow(img)
+                    fig.axes.get_xaxis().set_visible(False)
+                    fig.axes.get_yaxis().set_visible(False)
+                    plt.show()
+                else:
+                    print("The image of class diagram cannot be generate.")
+                    print("Please check with your system administrators.")
             else:
                 print("Your given python file does not exist in the current directory "
                       "or your input arguments were wrong. The input arguments "
@@ -165,7 +169,7 @@ class MyCli(Cmd):
 
     # Harry's work
     def help_pyr_class_diagram(self):
-        print("\n".join(['Generate a class diagram in png format from a given python file',
+        print("\n".join(['Generate and display a class diagram in png format from a given python file',
                          'Syntax: pyr_class_diagram [output png file name suffix] '
                          '[input source code file name.py])']))
 
@@ -304,16 +308,17 @@ class MyCli(Cmd):
         self.file_to_data.show_all_classes()
 
 
-
+    # Harry's work
     def do_quit(self, line):
         """Exit this command line interpreter"""
         print("Quitting......")
         return True
 
+    # Harry's work
     def help_quit(self):
         print("\n".join(['Quit from this CLI', ':return: True']))
 
-
+# below is for manual testing only
 if __name__ == '__main__':
     my_cli = MyCli()
     my_cli.cmdloop()
