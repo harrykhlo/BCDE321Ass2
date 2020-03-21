@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 from DiagramCreator import MyCreator
+from PickleMaker import MyPickle
 #from Diagram import DiagramCreator
 #from Diagram import PickleMaker
 
@@ -39,6 +40,15 @@ class MyCli(Cmd):
     # Matt's work
     def help_diagram(self):
         print('Create a class diagram. Enter file location of py/dot file, then enter name/type of image.')
+
+    # Matt's work
+    def do_pickle(self, inp):
+        MyPickle(inp, input('name of pickle file: ')).make_pickle()
+
+    # Matt's work
+    def help_pickle(self):
+        print('pickle [filename], enter file to pickle then the name of the pickle file')
+
 
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
