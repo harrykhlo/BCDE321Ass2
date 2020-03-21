@@ -139,6 +139,42 @@ class MyCli(Cmd):
                          'Total numbers of classes and functions are displayed in a bar graph.',
                          'Syntax: validate_class_contents [input source code file name.py].']))
 
+    # Harry's work
+    def do_dot_2_png(self, input_dot_file_name):
+        """Generate and display png file from the given dot file.
+        Syntax: dot_2_png [input dot file name.dot]"""
+        try:
+            if path.exists(input_dot_file_name):
+                dot_command = 'dot -Tpng ' + input_dot_file_name + ' -o ' + input_dot_file_name + '.png'
+                subprocess.call(dot_command)
+                print(input_dot_file_name + '.png ' + ' are done')
+                png_file_name = input_dot_file_name+".png"
+                if path.exists(png_file_name):
+                    # show png image
+                    img = mpimg.imread(png_file_name)
+                    fig = plt.imshow(img)
+                    fig.axes.get_xaxis().set_visible(False)
+                    fig.axes.get_yaxis().set_visible(False)
+                    plt.show()
+                else:
+                    print("The image of class diagram cannot be generate.")
+                    print("Please check with your system administrators.")
+            else:
+                print("Your given dot file does not exist in the current directory ")
+                print("or your input arguments were wrong. The input arguments ")
+                print("should be [dot_file_name.dot]. ")
+                print("Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    # Harry's work
+    def help_dot_2_png(self):
+        """Help for dot_2_png command to generate and display png file from the given dot file.
+                Syntax: dot_2_png [input dot file name.dot]"""
+        print("\n".join(['Generate and display png file from the given dot file.',
+                         'Syntax: dot_2_png [input dot file name.dot].']))
+
+
 
     def do_displaysourcefilenodes(self, file_name):
         """error is given. This function is incomplete. Harry is still working on this"""
@@ -149,13 +185,7 @@ class MyCli(Cmd):
         self.file_to_data.read_file(file_name)
         self.file_to_data.show_all_classes()
 
-    def do_dot_2_png(self, input_dot_file_name):
-        # self.file_names = file_name
-        # url = "http://docs.python.org/library/webbrowser.html"
-        # chrome_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
-        dot_command = 'dot -Tpng ' + input_dot_file_name + ' -o ' + input_dot_file_name + '.png'
-        subprocess.call(dot_command)
-        print(input_dot_file_name + '.png ' + ' are done')
+
 
     def do_quit(self, line):
         """Exit this command line interpreter"""

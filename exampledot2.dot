@@ -1,0 +1,32 @@
+digraph G {
+        fontsize = 8
+
+        node [
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontsize = 8
+        ]
+
+        Animal [
+                label = "{Animal|+ name : string\l+ age : int\l|+ die() : void\l}"
+        ]
+
+        Dog [
+                label = "{Dog||+ bark() : void\l}"
+        ]
+
+        Cat [
+                label = "{Cat||+ meow() : void\l}"
+        ]
+
+        edge [
+                arrowhead = "empty"
+        ]
+
+        Dog -> Animal
+        Cat -> Animal
+
+}
