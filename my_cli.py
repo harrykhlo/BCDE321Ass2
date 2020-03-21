@@ -6,6 +6,7 @@ from os import path
 import webbrowser
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import numpy as np
 
 
 class MyCli(Cmd):
@@ -22,14 +23,14 @@ class MyCli(Cmd):
     def do_pyr_class_diagram(self, file_names):
         """Generate a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
         self.file_names = file_names
-        python_file_name = file_names[(file_names.find(" ")+1):]
-        png_file_name = 'classes_' + file_names[0:(file_names.find(" "))] +'.png'
+        python_file_name = file_names[(file_names.find(" ") + 1):]
+        png_file_name = 'classes_' + file_names[0:(file_names.find(" "))] + '.png'
         try:
             if path.exists(python_file_name):
                 pyreverse_command = 'pyreverse -ASmn -o png -p ' + file_names
                 subprocess.call(pyreverse_command)
                 print(file_names + ' are done')
-                #show png image
+                # show png image
                 img = mpimg.imread(png_file_name)
                 fig = plt.imshow(img)
                 fig.axes.get_xaxis().set_visible(False)
@@ -71,6 +72,72 @@ class MyCli(Cmd):
     def help_read_source_file(self):
         print("\n".join(['Extract data from the given python file to be an ast node',
                          'Syntax: read_source_file [input source code file name.py]']))
+
+    # Harry's work
+    def do_validate_class_contents(self, file_name):
+        """Validate, list and display class names, function names and the total numbers of them
+        in the given python file. Class and function names are displayed in command line.
+        Total numbers of classes and functions are displayed in a bar graph.
+        Syntax: validate_class_contents [input source code file name.py]"""
+
+        # sample: validate_class_contents test.py
+        num_of_classes = 0
+        num_of_functions = 0
+        try:
+            if path.exists(file_name):
+                self.file_to_data.read_file(file_name)
+                num_of_classes = len(self.file_to_data.tree.body)
+                print("---There are " + str(num_of_classes) + " classes.-------------------")
+                print("-----The classes are: -------------------")
+                for my_class in self.file_to_data.tree.body:
+                    print("-------" + my_class.name + " class")
+                for my_class in self.file_to_data.tree.body:
+                    print("---------The " + my_class.name + " class has " + str(len(my_class.body)) + " functions")
+                    num_of_functions += len(my_class.body)
+                    print("-----------The functions in " + my_class.name + " class are ")
+                    for my_function in my_class.body:
+                        print("---------------" + my_function.name + " function")
+                print("total number of classes is " + str(num_of_classes))
+                print("total number of functions is " + str(num_of_functions))
+                # for my_function in my_class.body:
+                #     if my_function.name == "__init__":
+                #         print("---------The " + my_class.name + " class has " + str(
+                #             len(my_function.body)) + " attributes")
+                #         print("-----------The attributes in " + my_class.name + " class are ")
+                #         for my_attribute in my_function.body:
+                #             print("---------------" + my_attribute.targets[0].attr + " attribute")
+
+                # types_x = ["class", "function"]
+                # num_y = [num_of_classes, num_of_functions]
+                # plt.plot(types_x, num_y, '-b', label="A simple line")
+                # plt.legend(loc='upper left')
+                # plt.title("Total Numbers of classes and functions")
+                # plt.xlabel('Types')
+                # plt.ylabel('Total Numbers')
+                # plt.show()
+                types_x = ["class", "function"]
+                x_pos = np.arange(len(types_x))
+                num_y = [num_of_classes, num_of_functions]
+                plt.bar(x_pos, num_y, align='center', alpha=0.5)
+                plt.xticks(x_pos, types_x)
+                plt.ylabel('Total Numbers')
+                plt.title('Total Numbers of classes and functions')
+                plt.show()
+            else:
+                print("Your given python file does not exist in the current directory ")
+                print("or your input arguments were wrong. The input arguments ")
+                print("should be [py_file_name.py]. ")
+                print("Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    # Harry's work
+    def help_validate_class_contents(self):
+        print("\n".join(['Validate, list and display class names, function names and the total numbers of them'
+                         ' in the given python file.',
+                         'Class and function names are displayed in command line.',
+                         'Total numbers of classes and functions are displayed in a bar graph.',
+                         'Syntax: validate_class_contents [input source code file name.py].']))
 
 
     def do_displaysourcefilenodes(self, file_name):

@@ -1,0 +1,11 @@
+digraph "classes" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{Car|door\lwheel\l|is_sold()\l}", shape="record"];
+"1" [label="{Door|number\l|}", shape="record"];
+"2" [label="{Taxi|color : str\l|}", shape="record"];
+"3" [label="{Wheel|number\l|}", shape="record"];
+"2" -> "0" [arrowhead="empty", arrowtail="none"];
+"1" -> "0" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="door", style="solid"];
+"3" -> "0" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="wheel", style="solid"];
+}

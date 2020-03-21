@@ -4,7 +4,7 @@ class Car:
         self.door = Door(1)
         self.wheel = Wheel(1)
 
-    def is_sale(self):
+    def is_sold(self):
         print("this car is sold")
 
 class Door:
