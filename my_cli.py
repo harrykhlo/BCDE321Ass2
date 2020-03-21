@@ -19,6 +19,19 @@ class MyCli(Cmd):
         self.prompt = ">>" + my_name + ">> "
         self.file_to_data = FileToData()
 
+    # Matt's work
+    def do_exit(self, inp):
+        # exit the application.
+        print('Exiting Program...')
+        return True
+
+    # Matt's work
+    def help_exit(self):
+        print('Exit the application.')
+
+
+
+
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
         """Generate a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
