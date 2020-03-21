@@ -296,18 +296,6 @@ class MyCli(Cmd):
         print("\n".join(['Generate and display png file from the given dot file.',
                          'Syntax: dot_2_png [input dot file name.dot].']))
 
-
-
-    def do_displaysourcefilenodes(self, file_name):
-        """error is given. This function is incomplete. Harry is still working on this"""
-        self.file_to_data.show_ast_nodes()
-
-    def do_displayallclasses(self, file_name):
-        """error is given. This function is incomplete. Harry is still working on this"""
-        self.file_to_data.read_file(file_name)
-        self.file_to_data.show_all_classes()
-
-
     # Harry's work
     def do_quit(self, line):
         """Exit this command line interpreter"""
