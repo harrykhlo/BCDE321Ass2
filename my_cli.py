@@ -49,6 +49,29 @@ class MyCli(Cmd):
     def help_pickle(self):
         print('pickle [filename], enter file to pickle then the name of the pickle file')
 
+    # Matt's work
+    def do_unpickle(self, inp):  # i don't know if this is correct or not
+        MyPickle('a', inp).make_pickle()
+        """pickle_file = open(inp, 'rb')  # https://www.datacamp.com/community/tutorials/pickle-python-tutorial
+        load_file = pickle.load(pickle_file)
+        print(load_file)
+        pickle_file.close()"""
+
+    # Matt's work
+    def help_unpickle(self):
+        print('unpickle [picklefilename], enter the name of a file that has been pickled')
+
+    # Matt's work
+    def do_db(self):
+        pass
+
+    # Matt's work
+    def help_db(self):
+        print('a')
+
+    # Matt's work
+    def default(self, inp):
+        print(inp + ' is an incorrect command. Type ? to list commands.')
 
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
