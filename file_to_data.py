@@ -42,7 +42,7 @@ class FileToData(ast.NodeVisitor):
         #     print(len(tree.body)) # show 4 classes
 
 
-# below is for testing only
+# below is for manual testing only
 if __name__ == "__main__":
     file_to_data = FileToData()
     file_to_data.readfile("test.py")
