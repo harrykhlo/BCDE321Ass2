@@ -60,5 +60,6 @@ class MyTestCase(unittest.TestCase):
         expected_output = 0
         self.assertEqual(actual_output, expected_output)
 
+
 if __name__ == '__main__':
     unittest.main()
