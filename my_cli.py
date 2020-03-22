@@ -25,7 +25,7 @@ class MyCli(Cmd):
         self.file_to_data = FileToData()
 
     # Matt's work
-    def do_exit(self, inp):
+    def do_exit(self):  # delete
         # exit the application.
         print('Exiting Program...')
         return True
@@ -44,6 +44,14 @@ class MyCli(Cmd):
         print('Create a class diagram. Enter file location of py/dot file, then enter name/type of image.')
 
     # Matt's work
+    def do_deletediagram(self, inp):
+        MyCreator(inp, 'pass').delete_diagram()
+
+    # Matt's work
+    def help_deletediagram(self):
+        print('Deletes a diagram')
+
+    # Matt's work
     def do_pickle(self, inp):
         MyPickle(inp, input('name of pickle file: ')).make_pickle()
 
@@ -52,16 +60,20 @@ class MyCli(Cmd):
         print('pickle [filename], enter file to pickle then the name of the pickle file')
 
     # Matt's work
-    def do_unpickle(self, inp):  # i don't know if this is correct or not
+    def do_unpickle(self, inp):
         MyPickle('a', inp).make_pickle()
-        """pickle_file = open(inp, 'rb')  # https://www.datacamp.com/community/tutorials/pickle-python-tutorial
-        load_file = pickle.load(pickle_file)
-        print(load_file)
-        pickle_file.close()"""
 
     # Matt's work
     def help_unpickle(self):
-        print('unpickle [picklefilename], enter the name of a file that has been pickled')
+        print('unpickle [picklefilename], enter the name of a text file that has been pickled')
+
+    # Matt's work
+    def do_deletepickle(self, inp):
+        MyPickle('pass', inp).delete_pickle()
+
+    # Matt's work
+    def help_deletepickle(self):
+        print('Deletes a pickle file')
 
     # Matt's work
     def do_createtable(self, inp):
@@ -100,6 +112,22 @@ class MyCli(Cmd):
     # Matt's work
     def help_deletetable(self):
         print('deletetable [TABLE_NAME], deletes specified table')
+
+    # Matt's work
+    def do_closedb(self):
+        MyDatabase().close_database()
+
+    # Matt's work
+    def help_closedb(self):
+        print('Closes current open database')
+
+    # Matt's work
+    def do_deletedb(self):
+        MyDatabase().close_database()
+
+    # Matt's work
+    def help_deletedb(self):
+        print('Deletes current database')
 
     # Matt's work
     def default(self, inp):
