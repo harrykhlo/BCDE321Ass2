@@ -63,6 +63,8 @@ if __name__ == "__main__":
     #file_to_data.show_ast_nodes()
     # file_to_data.show_all_classes()
     # ^^^below is for manual testing only
+
+    # doctests
     import doctest
     doctest.testmod()
 
