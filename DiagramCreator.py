@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 
 class MyCreator:
@@ -24,6 +25,10 @@ class MyCreator:
 
     def validate_image_name(self):  # always returns with a classes. prefix, figure out later
         return True
+
+    def delete_diagram(self):
+        os.remove('classes.' + self.image_name)
+        print(self.image_name + ' deleted!')
 
 
 # MyCreator('FullClassDiagram.png', 'TestClass.py').run()

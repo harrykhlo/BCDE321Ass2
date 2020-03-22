@@ -1,11 +1,12 @@
 import sqlite3
+import os
 
 
 class MyDatabase:
     def __init__(self):
         self.connection = sqlite3.connect("diagramdb.db")
         self.cursor = self.connection.cursor()
-        # print('Opened database!')
+        print('Opened database!')
 
     def create_table(self, table_name):
         if self.check_table(table_name):
@@ -19,7 +20,6 @@ class MyDatabase:
             sql_command = format_str.format(t_name=table_name)
             self.cursor.execute(sql_command)
             print('Table "' + table_name + '" created!')
-            self.connection.close()
 
     def add_data(self, table_name, file_number, file_name, file_content):
         if self.check_table(table_name):
@@ -32,7 +32,6 @@ class MyDatabase:
                 self.cursor.execute(sql_command)
             self.connection.commit()
             print('Data added to "' + table_name + '"')
-            self.connection.close()
         else:
             print(table_name + " doesn't exist")
 
@@ -49,7 +48,6 @@ class MyDatabase:
             print("\nfetch one:")
             res = self.cursor.fetchone()
             print(res)
-            self.connection.close()
         else:
             print(table_name + " doesn't exist")
 
@@ -59,7 +57,6 @@ class MyDatabase:
             sql_command = format_str.format(t_name=table_name)
             self.cursor.execute(sql_command)
             print('Table "' + table_name + '" deleted!')
-            self.connection.close()
         else:
             print(table_name + " doesn't exist")
 
@@ -71,15 +68,10 @@ class MyDatabase:
             return True
         return False
 
+    def close_database(self):
+        self.connection.close()
+        print('Closed database!')
 
-"""
-sdb = MyDatabase()
-sdb.create_table('testt')
-sdb.add_data('testt', 1, 'test', 'test content')
-sdb.add_data('testt', 2, 'test2', 'test content2')
-sdb.add_data('testt', 3, 'test3', 'test content3')
-sdb.show_data('testt')
-sdb.delete_table('testt')
-"""
-
-
+    def delete_database(self):
+        os.remove('diagramdb.db')
+        print('Database deleted!')
