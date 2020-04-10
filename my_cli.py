@@ -364,7 +364,8 @@ class MyCli(Cmd):
         try:
             if path.exists(file_name):
                 self.file_to_data.shelve_ast_nodes(file_name)
-                print("The ast nodes below has been read from the given python file, " + file_name + ":")
+                print("The ast node below has been read from the given python file, " + file_name + ",")
+                print("and stored in three db files with name of " + file_name + ".db:")
                 self.file_to_data.show_ast_nodes()
             else:
                 print("Your given python file does not exist in the current directory ")
