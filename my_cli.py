@@ -200,6 +200,8 @@ class MyCli(Cmd):
     # Harry's work
     def do_pyr_class_diagram(self, file_names):
         """Generate and display a class diagram in png format from given [png_file_name_suffix py_file_name.py]"""
+
+        # sample: >>>>> pyr_class_diagram test test.py
         self.file_names = file_names
         python_file_name = file_names[(file_names.find(" ") + 1):]
         png_file_name = 'classes_' + file_names[0:(file_names.find(" "))] + '.png'
@@ -237,6 +239,8 @@ class MyCli(Cmd):
     def do_read_source_file(self, file_name):
         """This function extract data from the given python file to be an ast node.
         The file name should be [py_file_name.py]. The node will display as an indication of extraction"""
+
+        # sample: >>>>> read_source_file test.py
         try:
             if path.exists(file_name):
                 self.file_to_data.read_file(file_name)
@@ -262,7 +266,7 @@ class MyCli(Cmd):
         Total numbers of classes and functions are displayed in a bar graph.
         Syntax: validate_class_contents [input source code file name.py]"""
 
-        # sample: validate_class_contents test.py
+        # sample: >>>>> validate_class_contents test.py
         num_of_classes = 0
         num_of_functions = 0
         try:
@@ -325,6 +329,8 @@ class MyCli(Cmd):
     def do_dot_2_png(self, input_dot_file_name):
         """Generate and display png file from the given dot file.
         Syntax: dot_2_png [input dot file name.dot]"""
+
+        # example >>>>> dot_2_png exampledot2.dot
         try:
             if path.exists(input_dot_file_name):
                 dot_command = 'dot -Tpng ' + input_dot_file_name + ' -o ' + input_dot_file_name + '.png'
@@ -362,6 +368,8 @@ class MyCli(Cmd):
         using shelve.
         The files are given_file_name.py.db.bak, given_file_name.py.db.dat and given_file_name.py.db.dir.
         The file name should be [py_file_name.py]. The node will display as an indication of extraction"""
+
+        # example >>>>> shelve_ast_nodes test.py
         try:
             if path.exists(file_name):
                 self.file_to_data.shelve_ast_nodes(file_name)
@@ -384,11 +392,13 @@ class MyCli(Cmd):
                          ' given_file_name.py.db.dir.',
                          'The given file name should be [py_file_name.py].'
                          ' The node will display as an indication of shelve done',
+                         'The unshelve_ast_nodes command can be used to retrieve the data'
+                         ' stored in those files',
                          'Syntax: shelve_ast_nodes [input source code file name.py].']))
 
     # Harry's work
     def do_unshelve_ast_nodes(self, file_name):
-        #example unshelve_ast_nodes test.py.db
+        #example >>>>> unshelve_ast_nodes test.py.db
         self.file_to_data.unshelve_ast_nodes(file_name)
         print("The ast nodes below has been retrieved from the given db file, " + file_name + ":")
         self.file_to_data.show_ast_nodes()
@@ -411,7 +421,7 @@ class MyCli(Cmd):
         Using of my_sqlit_database_data command can list out all the data in the database.
         Syntax: save_py_class_name_and_num_of_functions_to_sqlit [input source code file name.py]"""
 
-        # sample: save_py_class_name_and_num_of_functions_to_sqlit test.py
+        # sample: >>>>> save_py_class_name_and_num_of_functions_to_sqlit test.py
 
         num_of_classes = 0
         num_of_functions = 0
@@ -452,7 +462,7 @@ class MyCli(Cmd):
         This gives all the pairs of class name and its number of functions.
         Syntax: my_sqlit_database_data"""
 
-        # sample: save_py_class_name_and_num_of_functions_to_sqlit test.py
+        # sample: >>>>> my_sqlit_database_data
         file_name = 'my_sqlite.db'
         try:
             if path.exists(file_name):
@@ -477,6 +487,8 @@ class MyCli(Cmd):
     # Harry's work
     def do_quit(self, line):
         """Exit this command line interpreter"""
+
+        # sample: >>>>> quit
         print("Quitting......")
         return True
 
