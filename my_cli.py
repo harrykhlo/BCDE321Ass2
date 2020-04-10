@@ -355,6 +355,52 @@ class MyCli(Cmd):
         print("\n".join(['Generate and display png file from the given dot file.',
                          'Syntax: dot_2_png [input dot file name.dot].']))
 
+        # Harry's work
+    def do_shelve_ast_nodes(self, file_name):
+        """This function extracts data from the given python file to be an ast node and stores the node in files
+        using shelve.
+        The files are given_file_name.py.db.bak, given_file_name.py.db.dat and given_file_name.py.db.dir.
+        The file name should be [py_file_name.py]. The node will display as an indication of extraction"""
+        try:
+            if path.exists(file_name):
+                self.file_to_data.shelve_ast_nodes(file_name)
+                print("The ast nodes below has been read from the given python file, " + file_name + ":")
+                self.file_to_data.show_ast_nodes()
+            else:
+                print("Your given python file does not exist in the current directory ")
+                print("or your input arguments were wrong. The input arguments ")
+                print("should be [py_file_name.py]. ")
+                print("Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    # Harry's work
+    def help_shelve_ast_nodes(self):
+        print("\n".join(['This function extracts data from the given python file to be an ast node and'
+                         ' stores the node in files using shelve.',
+                         'The files are given_file_name.py.db.bak, given_file_name.py.db.dat and'
+                         ' given_file_name.py.db.dir.',
+                         'The given file name should be [py_file_name.py].'
+                         ' The node will display as an indication of shelve done',
+                         'Syntax: shelve_ast_nodes [input source code file name.py].']))
+
+    # Harry's work
+    def do_unshelve_ast_nodes(self, file_name):
+        self.file_to_data.unshelve_ast_nodes(file_name)
+        print("The ast nodes below has been retrieved from the given db file, " + file_name + ":")
+        self.file_to_data.show_ast_nodes()
+
+    # Harry's work
+    def help_unshelve_ast_nodes(self):
+        print("\n".join(['This function retrieves data from the given shelved db file which'
+                         ' stored an ast node by using shelve_ast_nodes command.',
+                         'The given file name should have three corresponding files stored in the current directory.',
+                         'The three files are given_file_name.py.db.bak, given_file_name.py.db.dat and'
+                         ' given_file_name.py.db.dir.',
+                         'The given file name should be [a_name.py.db].'
+                         ' The node will display as an indication of unshelve done',
+                         'Syntax: unshelve_ast_nodes [a_name.py.db].']))
+
     # Harry's work
     def do_quit(self, line):
         """Exit this command line interpreter"""

@@ -3,6 +3,7 @@ import ast
 import os.path
 from os import path
 import inspect
+import shelve
 
 from pprint import pprint
 
@@ -53,6 +54,37 @@ class FileToData(ast.NodeVisitor):
         #     print(tree.body[0].name) #Car class
         #     print("number of classes:")
         #     print(len(tree.body)) # show 4 classes
+
+    # Harry's work
+    def shelve_ast_nodes(self, file_name):
+        db_file_name = file_name + ".db"
+        try:
+            if path.exists(file_name):
+                with open(file_name, "r") as source:
+                    self.tree = ast.parse(source.read())
+                try:
+                    shelve_tree = shelve.open(db_file_name)
+                    shelve_tree[db_file_name] = self.tree
+                except Exception as err:
+                    print("Please try again! The exception is: ", err)
+                finally:
+                    shelve_tree.close()
+            else:
+                print("Your given python file does not exist in the current directory "
+                      "or your input arguments were wrong. The file name "
+                      "should be [py_file_name.py]. "
+                      "Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    def unshelve_ast_nodes(self, file_name):
+        try:
+            unshelve_object = shelve.open(file_name)
+            self.tree = unshelve_object[file_name]
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+        finally:
+            unshelve_object.close()
 
 
     # Harry's work
