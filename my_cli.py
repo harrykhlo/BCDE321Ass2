@@ -1,6 +1,7 @@
 from cmd import Cmd
 import subprocess
 from file_to_data import FileToData
+from my_sqlit import MySqlit
 import os.path
 from os import path
 import webbrowser
@@ -356,7 +357,7 @@ class MyCli(Cmd):
                          'Syntax: dot_2_png [input dot file name.dot].']))
 
         # Harry's work
-    def do_shelve_ast_nodes(self, file_name):
+    def do_shelve_ast_nodes(self, file_name): #example shelve_ast_nodes test.py
         """This function extracts data from the given python file to be an ast node and stores the node in files
         using shelve.
         The files are given_file_name.py.db.bak, given_file_name.py.db.dat and given_file_name.py.db.dir.
@@ -387,6 +388,7 @@ class MyCli(Cmd):
 
     # Harry's work
     def do_unshelve_ast_nodes(self, file_name):
+        #example unshelve_ast_nodes test.py.db
         self.file_to_data.unshelve_ast_nodes(file_name)
         print("The ast nodes below has been retrieved from the given db file, " + file_name + ":")
         self.file_to_data.show_ast_nodes()
@@ -401,6 +403,76 @@ class MyCli(Cmd):
                          'The given file name should be [a_name.py.db].'
                          ' The node will display as an indication of unshelve done',
                          'Syntax: unshelve_ast_nodes [a_name.py.db].']))
+
+    # Harry's work
+    def do_save_py_class_name_and_num_of_functions_to_sqlit(self, file_name):
+        """Save all class names and its number of functions to a sqlit database.
+        The classes are extracted from the given python file.
+        Using of my_sqlit_database_data command can list out all the data in the database.
+        Syntax: save_py_class_name_and_num_of_functions_to_sqlit [input source code file name.py]"""
+
+        # sample: save_py_class_name_and_num_of_functions_to_sqlit test.py
+
+        num_of_classes = 0
+        num_of_functions = 0
+        try:
+            if path.exists(file_name):
+                my_sqlit = MySqlit('my_sqlite.db')
+                my_sqlit.drop_my_table()
+                my_sqlit.create_my_table()
+
+                self.file_to_data.read_file(file_name)
+                num_of_classes = len(self.file_to_data.tree.body)
+
+                for my_class in self.file_to_data.tree.body:
+                    my_sqlit.my_insert(my_class.name, len(my_class.body))
+
+                my_sqlit.commit_connection()
+                my_sqlit.close_connection()
+
+            else:
+                print("Your given python file does not exist in the current directory ")
+                print("or your input arguments were wrong. The input arguments ")
+                print("should be [py_file_name.py]. ")
+                print("Please try again!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    # Harry's work
+    def help_save_py_class_name_and_num_of_functions_to_sqlit(self):
+        print("\n".join(['Save all class names and its number of functions to a sqlit database.',
+                         'The classes are extracted from the given python file.',
+                         'Using of my_sqlit_database_data command can list out all the data in the database.',
+                         'Syntax: save_py_class_name_and_num_of_functions_to_sqlit [input source code file name.py]']))
+
+    # Harry's work
+    def do_my_sqlit_database_data(self,arg):
+        """List all the data stored in the sqlit database by using
+        the save_py_class_name_and_num_of_functions_to_sqlit command.
+        This gives all the pairs of class name and its number of functions.
+        Syntax: my_sqlit_database_data"""
+
+        # sample: save_py_class_name_and_num_of_functions_to_sqlit test.py
+        file_name = 'my_sqlite.db'
+        try:
+            if path.exists(file_name):
+                my_sqlit = MySqlit(file_name)
+                my_sqlit.fetch_all_my_table()
+                my_sqlit.commit_connection()
+                my_sqlit.close_connection()
+            else:
+                print("The database file does not exist in the current directory")
+                print("Please use save_py_class_name_and_num_of_functions_to_sqlit command to create the database")
+                print("Please try again after the database is created!")
+        except Exception as err:
+            print("Please try again! The exception is: ", err)
+
+    # Harry's work
+    def help_my_sqlit_database_data(self):
+        print("\n".join(['List all the data stored in the sqlit database by using ',
+                         'the save_py_class_name_and_num_of_functions_to_sqlit command.',
+                         'This gives all the pairs of class name and its number of functions.',
+                         'Syntax: my_sqlit_database_data']))
 
     # Harry's work
     def do_quit(self, line):
